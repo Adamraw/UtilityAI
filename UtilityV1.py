@@ -30,14 +30,30 @@ class Utility_Function:
     def Create_Math_Function(self,x = input()):
       self.Math_Function = re.sub(r"((?:\d+)|(?:[a-zA-Z]\w*\(\w+\)))((?:[a-zA-Z]\w*)|\()", r"\1*\2", x)
 
+
+#we need a decorator here (maybe)
     def Evaluate_Math_Function(self):
       Result = eval(self.Math_Function,{'__builtins__': None},vars(self))
       return Result
+
+#UNDERPROGRESS
+    def Evaluate_Math_Function1(self,localvar):
+      Result = eval(self.Math_Function,{'__builtins__': None},localvar )
+      return Result
     
     def Graph_Function(self):
-      x = np.linspace(0,100,1000)
-      y = self.Math_Function
-      plt.plot(x,y)
+      xaxis = []
+      yaxis = []
+      for i in range(100):
+        xaxis.append(i)
+      for i in xaxis:
+        localvar = vars(self)
+        localvar["x"] = i
+        localvar["y"] = i
+        localvar["z"] = i
+        #function eval1 not just eval
+        yaxis.append(self.Evaluate_Math_Function1(localvar))
+      plt.plot(xaxis,yaxis)
       plt.show()
 
 
@@ -72,25 +88,27 @@ class Selector_Object:
 
 
 
-              
+
 Test = Utility_Function(x = 2, y = 22, z = 12)
 
-Raw = Utility_Function(x = 5, y = 11, z = 12)
+#Raw = Utility_Function(x = 5, y = 11, z = 12)
 
-Jaw = Utility_Function(x = 3)
+#Jaw = Utility_Function(x = 3)
 
 Test.Create_Math_Function()
-Raw.Create_Math_Function()
-Jaw.Create_Math_Function()
+#Raw.Create_Math_Function()
+#Jaw.Create_Math_Function()
 
 print(vars(Test))
-print(Test.Math_Function)
+#print(Test.Math_Function)
 
-Test.Evaluate_Math_Function()
-Raw.Evaluate_Math_Function()
-Jaw.Evaluate_Math_Function()
+#Test.Evaluate_Math_Function()
+#Raw.Evaluate_Math_Function()
+#Jaw.Evaluate_Math_Function()
 
-Test_Selector = Selector_Object(U1 = Test , U2 = Raw, U3 = Jaw)
-Test_Selector.evaluate_function_scores()
-Test_Selector.s_scores()
+#Test_Selector = Selector_Object(U1 = Test , U2 = Raw, U3 = Jaw)
+#Test_Selector.evaluate_function_scores()
+#Test_Selector.s_scores()
 
+
+Test.Graph_Function()
